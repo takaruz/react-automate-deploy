@@ -1,0 +1,67 @@
+{
+  "list": [
+    {
+      "id": 1,
+      "name": "ABC University",
+      "abbr": "ABC"
+    },
+    {
+      "id": 2,
+      "name": "DEF University",
+      "abbr": "DEF"
+    },
+    {
+      "id": 3,
+      "name": "GHI University",
+      "abbr": "GHI"
+    },
+    {
+      "id": 4,
+      "name": "JKL University",
+      "abbr": "JKL"
+    },
+    {
+      "id": 5,
+      "name": "MNO University",
+      "abbr": "MNO"
+    }
+  ],
+  "client": [
+    {
+      "id": 1,
+      "name": "ABC University",
+      "server": [
+        {
+          "name": "webApp",
+          "version": "1.1.1",
+          "lastUpdate": "2016-09-30"
+        },
+        {
+          "name": "cds",
+          "version": "1.1.5",
+          "lastUpdate": "2016-09-10"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Randal White",
+      "status": "Unemployed"
+    },
+    {
+      "id": 3,
+      "name": "Stephanie Sanders",
+      "status": "Employed"
+    },
+    {
+      "id": 4,
+      "name": "Stephanie Sanders",
+      "status": "Employed"
+    },
+    {
+      "id": 5,
+      "name": "Stephanie Sanders",
+      "status": "Employed"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+.container {
+  text-align: center;
+  padding-top: 200px;
+}
+
+:global {
+  .textCenter {
+    text-align: center;
+  }
+  .textLeft {
+    text-align: left;
+  }
+}

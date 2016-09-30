@@ -1,0 +1,6 @@
+export App from './App/App'
+export Main from './Dashboard/Main'
+export Deploy from './Deploy/Deploy'
+export Registration from './Registration/Registration'
+export Settings from './Settings/Settings'
+export Status from './Status/DeployStatus'
