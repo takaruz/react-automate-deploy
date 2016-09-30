@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
-import styles from '../../theme/styles.scss'
+import '../../theme/styles.scss'
 
 class Main extends Component {
   constructor(props, context) {
@@ -43,7 +43,7 @@ class Main extends Component {
     );
 
     return (
-      <div className={styles['container']}>
+      <div className="contentContainer">
         <Dialog
           open={this.state.open}
           title="Super Secret Password"

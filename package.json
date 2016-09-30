@@ -33,7 +33,9 @@
     "material-ui": "^0.15.0",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
+    "react-motion": "^0.4.5",
     "react-router": "^2.8.1",
+    "react-swipeable-views": "^0.7.9",
     "react-tap-event-plugin": "^1.0.0"
   },
   "engines": {

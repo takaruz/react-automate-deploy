@@ -8,7 +8,7 @@ import '../../theme/styles.scss'
 
 const DropDownSiteList = ({
   value,
-  sites,
+  apps,
   handleChange
 }) => (
   <SelectField
@@ -17,10 +17,10 @@ const DropDownSiteList = ({
     floatingLabelFixed={true}
     fullWidth={true}
     value={value}
-    onChange={(event, key, payload) => handleChange(payload, 'client')}>
+    onChange={(event, key, payload) => handleChange(payload, 'application')}>
     {
-      sites.map((site) => (
-        <MenuItem value={site.id} key={site.id} primaryText={site.name}/>
+      apps.map((app, index) => (
+        <MenuItem value={index} key={index} primaryText={app.name + ' : ' + app.status}/>
       ))
     }
   </SelectField>
@@ -29,7 +29,7 @@ const DropDownSiteList = ({
 // Assign props to components
 DropDownSiteList.propTypes = {
   value: PropTypes.number.isRequired,
-  sites: PropTypes.array.isRequired,
+  apps: PropTypes.array.isRequired,
   handleChange: PropTypes.func.isRequired
 }
 

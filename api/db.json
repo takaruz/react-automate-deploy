@@ -30,38 +30,92 @@
     {
       "id": 1,
       "name": "ABC University",
-      "server": [
+      "application": [
         {
-          "name": "webApp",
+          "name": "Web Application Server",
           "version": "1.1.1",
-          "lastUpdate": "2016-09-30"
+          "lastUpdate": "2016-09-30",
+          "status": "online"
         },
         {
-          "name": "cds",
+          "name": "Credential Delegate Server",
           "version": "1.1.5",
-          "lastUpdate": "2016-09-10"
+          "lastUpdate": "2016-09-10",
+          "status": "online"
         }
       ]
     },
     {
       "id": 2,
-      "name": "Randal White",
-      "status": "Unemployed"
+      "name": "DEF University",
+      "application": [
+        {
+          "name": "Web Application Server",
+          "version": "1.1.1",
+          "lastUpdate": "2016-09-30",
+          "status": "online"
+        },
+        {
+          "name": "Credential Delegate Server",
+          "version": "1.1.5",
+          "lastUpdate": "2016-09-10",
+          "status": "online"
+        }
+      ]
     },
     {
       "id": 3,
-      "name": "Stephanie Sanders",
-      "status": "Employed"
+      "name": "GHI University",
+      "application": [
+        {
+          "name": "Web Application Server",
+          "version": "1.1.1",
+          "lastUpdate": "2016-09-30",
+          "status": "online"
+        },
+        {
+          "name": "Credential Delegate Server",
+          "version": "1.1.5",
+          "lastUpdate": "2016-09-10",
+          "status": "online"
+        }
+      ]
     },
     {
       "id": 4,
-      "name": "Stephanie Sanders",
-      "status": "Employed"
+      "name": "JKL University",
+      "application": [
+        {
+          "name": "Web Application Server",
+          "version": "1.1.1",
+          "lastUpdate": "2016-09-30",
+          "status": "online"
+        },
+        {
+          "name": "Credential Delegate Server",
+          "version": "1.1.5",
+          "lastUpdate": "2016-09-10",
+          "status": "online"
+        }
+      ]
     },
     {
       "id": 5,
-      "name": "Stephanie Sanders",
-      "status": "Employed"
+      "name": "MNO University",
+      "application": [
+        {
+          "name": "Web Application Server",
+          "version": "1.1.1",
+          "lastUpdate": "2016-09-30",
+          "status": "online"
+        },
+        {
+          "name": "Credential Delegate Server",
+          "version": "1.1.5",
+          "lastUpdate": "2016-09-10",
+          "status": "online"
+        }
+      ]
     }
   ]
 }
