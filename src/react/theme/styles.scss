@@ -3,6 +3,11 @@
   padding-top: 200px;
 }
 
+.halfWidth {
+  text-align: left;
+  width: 50%;
+}
+
 :global {
 
   .contentContainer {
@@ -14,6 +19,7 @@
   }
   .textLeft {
     text-align: left;
+    white-space: nowrap;
   }
 
   @media screen and (min-width: 756px) {
@@ -21,4 +27,5 @@
       margin: 64px;
     }
   }
+
 }

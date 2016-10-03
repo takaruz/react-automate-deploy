@@ -20,7 +20,11 @@ const DropDownSiteList = ({
     onChange={(event, key, payload) => handleChange(payload, 'client')}>
     {
       sites.map((site) => (
-        <MenuItem value={site.id} key={site.id} primaryText={site.name}/>
+        <MenuItem
+          value={site.id}
+          key={site.id}
+          primaryText={site.name}
+        />
       ))
     }
   </SelectField>

@@ -6,27 +6,48 @@ import LoginDetail from './LoginDetail'
 import {browserHistory} from 'react-router'
 import style from './App.scss'
 
+const inline = {
+  title: {
+    textAlign: "center",
+    textTransform: "capitalize"
+  },
+  titleWidth: {
+    textAlign: "center",
+    textTransform: "capitalize",
+    marginLeft: 256 // margin left for drawer menu docked.
+  }
+}
+
 export default class App extends Component {
   state = {
-    isDocked: true,
-    showMenu: true
+    title: this.props.routes[1].path,
+    titleStyle: inline.title,
+    isDocked: false,
+    showMenu: false
   }
 
   handleResize = () => {
+    // Handle drawer menu when screen width changed.
     if (window.innerWidth < 756) {
-      this.setState({showMenu: false, isDocked: false})
+      this.setState({showMenu: false, isDocked: false, titleStyle: inline.title})
     } else {
-      this.setState({showMenu: true, isDocked: true})
+      this.setState({showMenu: true, isDocked: true, titleStyle: inline.titleWidth})
     }
   }
 
+  handleRequestChange = () => {
+    // Auto hide drawer menu on 'swipe', 'clickAway' and 'escape'
+    this.setState({showMenu: false})
+  }
+
   handleTouchTap = () => {
+    // Open drawer menu on LeftIconButtonTouchTap
     this.setState({showMenu: true})
   }
 
   handleLink = (target) => {
     browserHistory.push('/' + target)
-
+    this.setState({title: target})
     if (window.innerWidth < 756)
       this.setState({showMenu: false})
   }
@@ -37,14 +58,15 @@ export default class App extends Component {
   }
 
   render() {
-    const {isDocked, showMenu} = this.state
+    const {title, titleStyle, isDocked, showMenu} = this.state
 
     return (
       <MuiThemeProvider>
         <div>
           <AppBar
             className={style['header']}
-            title="Title"
+            title={title}
+            titleStyle={titleStyle}
             iconElementRight={<LoginDetail />}
             onLeftIconButtonTouchTap={this.handleTouchTap}
           />
@@ -52,6 +74,7 @@ export default class App extends Component {
             isDocked={isDocked}
             isOpen={showMenu}
             handleLink={this.handleLink}
+            handleRequestChange={this.handleRequestChange}
           />
           <div className={style['container']}>
             {this.props.children}

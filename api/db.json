@@ -32,16 +32,22 @@
       "name": "ABC University",
       "application": [
         {
+          "id": 1,
           "name": "Web Application Server",
           "version": "1.1.1",
           "lastUpdate": "2016-09-30",
-          "status": "online"
+          "ip": "202.10.12.1",
+          "ServStatus": "online",
+          "AppStatus": "online"
         },
         {
+          "id": 2,
           "name": "Credential Delegate Server",
           "version": "1.1.5",
           "lastUpdate": "2016-09-10",
-          "status": "online"
+          "ip": "202.10.12.2",
+          "ServStatus": "online",
+          "AppStatus": "online"
         }
       ]
     },
@@ -50,16 +56,22 @@
       "name": "DEF University",
       "application": [
         {
+          "id": 1,
           "name": "Web Application Server",
           "version": "1.1.1",
           "lastUpdate": "2016-09-30",
-          "status": "online"
+          "ip": "202.10.15.1",
+          "ServStatus": "online",
+          "AppStatus": "online"
         },
         {
+          "id": 2,
           "name": "Credential Delegate Server",
           "version": "1.1.5",
           "lastUpdate": "2016-09-10",
-          "status": "online"
+          "ip": "202.10.15.2",
+          "ServStatus": "online",
+          "AppStatus": "online"
         }
       ]
     },
@@ -68,16 +80,22 @@
       "name": "GHI University",
       "application": [
         {
+          "id": 1,
           "name": "Web Application Server",
           "version": "1.1.1",
           "lastUpdate": "2016-09-30",
-          "status": "online"
+          "ip": "202.100.107.1",
+          "ServStatus": "online",
+          "AppStatus": "online"
         },
         {
+          "id": 2,
           "name": "Credential Delegate Server",
           "version": "1.1.5",
           "lastUpdate": "2016-09-10",
-          "status": "online"
+          "ip": "202.100.107.2",
+          "ServStatus": "online",
+          "AppStatus": "online"
         }
       ]
     },
@@ -86,16 +104,22 @@
       "name": "JKL University",
       "application": [
         {
+          "id": 1,
           "name": "Web Application Server",
           "version": "1.1.1",
           "lastUpdate": "2016-09-30",
-          "status": "online"
+          "ip": "202.56.98.1",
+          "ServStatus": "online",
+          "AppStatus": "online"
         },
         {
+          "id": 2,
           "name": "Credential Delegate Server",
           "version": "1.1.5",
           "lastUpdate": "2016-09-10",
-          "status": "online"
+          "ip": "202.56.98.2",
+          "ServStatus": "online",
+          "AppStatus": "online"
         }
       ]
     },
@@ -104,16 +128,128 @@
       "name": "MNO University",
       "application": [
         {
+          "id": 1,
           "name": "Web Application Server",
           "version": "1.1.1",
           "lastUpdate": "2016-09-30",
-          "status": "online"
+          "ip": "202.50.123.1",
+          "ServStatus": "online",
+          "AppStatus": "online"
         },
         {
+          "id": 2,
           "name": "Credential Delegate Server",
           "version": "1.1.5",
           "lastUpdate": "2016-09-10",
-          "status": "online"
+          "ip": "202.50.123.2",
+          "ServStatus": "online",
+          "AppStatus": "online"
+        }
+      ]
+    }
+  ],
+  "version": [
+    {
+      "id": 1,
+      "name": "Web Application Server",
+      "version": [
+        {
+          "versionCode": 1,
+          "versionName": "1.1.0",
+          "releaseDate": "2016-05-01",
+          "status": "",
+          "hashCode": "72caf9da"
+        },{
+          "versionCode": 2,
+          "versionName": "1.1.1",
+          "releaseDate": "2016-05-15",
+          "status": "",
+          "hashCode": "f910b5ef"
+        },{
+          "versionCode": 3,
+          "versionName": "1.1.1b",
+          "releaseDate": "2016-06-30",
+          "status": "beta",
+          "hashCode": "86796f74"
+        },{
+          "versionCode": 4,
+          "versionName": "1.1.2",
+          "releaseDate": "2016-07-12",
+          "status": "stable",
+          "hashCode": "c20b7e0b"
+        },{
+          "versionCode": 5,
+          "versionName": "1.1.3",
+          "releaseDate": "2016-08-21",
+          "status": "",
+          "hashCode": "23cdc185"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Credential Delegate Server",
+      "version": [
+        {
+          "versionCode": 1,
+          "versionName": "1.1.0",
+          "releaseDate": "2016-05-01",
+          "status": "",
+          "hashCode": "07b52418"
+        },{
+          "versionCode": 2,
+          "versionName": "1.1.1",
+          "releaseDate": "2016-05-15",
+          "status": "",
+          "hashCode": "db7740cb"
+        },{
+          "versionCode": 3,
+          "versionName": "1.1.2",
+          "releaseDate": "2016-06-03",
+          "status": "",
+          "hashCode": "b5543e54"
+        },{
+          "versionCode": 4,
+          "versionName": "1.1.3",
+          "releaseDate": "2016-06-17",
+          "status": "",
+          "hashCode": "e7df7cd2"
+        },{
+          "versionCode": 5,
+          "versionName": "1.1.4",
+          "releaseDate": "2016-07-21",
+          "status": "",
+          "hashCode": "ca07f4f1"
+        },{
+          "versionCode": 6,
+          "versionName": "1.1.5",
+          "releaseDate": "2016-07-31",
+          "status": "",
+          "hashCode": "ab415d45"
+        },{
+          "versionCode": 7,
+          "versionName": "1.1.6",
+          "releaseDate": "2016-08-07",
+          "status": "",
+          "hashCode": "a6e1c13"
+        },{
+          "versionCode": 8,
+          "versionName": "1.1.7",
+          "releaseDate": "2016-08-12",
+          "status": "stable",
+          "hashCode": "53fb28c6"
+        },{
+          "versionCode": 9,
+          "versionName": "1.1.8",
+          "releaseDate": "2016-08-19",
+          "status": "",
+          "hashCode": "d12cefff"
+        },{
+          "versionCode": 10,
+          "versionName": "1.1.9",
+          "releaseDate": "2016-08-31",
+          "status": "",
+          "hashCode": "9c29e05b"
         }
       ]
     }
