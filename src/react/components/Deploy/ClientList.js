@@ -6,24 +6,23 @@ import {MenuItem, SelectField} from 'material-ui';
 
 import '../../theme/styles.scss'
 
-const DropDownSiteList = ({
+const DropDownClientList = ({
   value,
-  sites,
+  clients,
   handleChange
 }) => (
   <SelectField
     className="textLeft"
     floatingLabelText="Select Client"
-    floatingLabelFixed={true}
     fullWidth={true}
     value={value}
     onChange={(event, key, payload) => handleChange(payload, 'client')}>
     {
-      sites.map((site) => (
+      clients.map((client) => (
         <MenuItem
-          value={site.id}
-          key={site.id}
-          primaryText={site.name}
+          value={client.id}
+          key={client.id}
+          primaryText={client.name}
         />
       ))
     }
@@ -31,10 +30,10 @@ const DropDownSiteList = ({
 )
 
 // Assign props to components
-DropDownSiteList.propTypes = {
+DropDownClientList.propTypes = {
   value: PropTypes.number.isRequired,
-  sites: PropTypes.array.isRequired,
+  clients: PropTypes.array.isRequired,
   handleChange: PropTypes.func.isRequired
 }
 
-export default DropDownSiteList
+export default DropDownClientList

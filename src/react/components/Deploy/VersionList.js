@@ -6,7 +6,17 @@ import {MenuItem, SelectField} from 'material-ui';
 
 import '../../theme/styles.scss'
 
+function makeItemText(version, current) {
+  let number  = version.versionName
+  let date    = ` : ${version.releaseDate}`
+  let hash    = ` : (${version.hashCode})`
+  let status  = version.status == "" ? "" : ` : ${version.status}`
+  let extra   = current == number ? " (Current version)" : ""
+  return number + date + hash + status + extra
+}
+
 const DropDownVersionList = ({
+  current,
   value,
   versions,
   handleChange
@@ -14,21 +24,15 @@ const DropDownVersionList = ({
   <SelectField
     className="textLeft"
     floatingLabelText="Select Version"
-    floatingLabelFixed={true}
     fullWidth={true}
     value={value}
     onChange={(event, key, payload) => handleChange(payload, 'version')}>
     {
-      versions.map((item) => (
+      versions.map((version) => (
         <MenuItem
-          value={item.versionCode}
-          key={item.versionCode}
-          primaryText={
-            item.versionName + ' : ' +
-            item.releaseDate + ' : (' +
-            item.hashCode + ')' + ' ' +
-            item.status
-          }
+          value={version.versionCode}
+          key={version.versionCode}
+          primaryText={makeItemText(version, current)}
         />
       ))
     }
