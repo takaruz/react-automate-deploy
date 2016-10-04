@@ -14,15 +14,16 @@ const DropDownSiteList = ({
   <SelectField
     className="textLeft"
     floatingLabelText="Select Application"
+    floatingLabelFixed={true}
     fullWidth={true}
     value={value}
     onChange={(event, key, payload) => handleChange(payload, 'application')}>
     {
-      apps.map((app) => (
+      apps.map((item) => (
         <MenuItem
-          value={app.id}
-          key={app.id}
-          primaryText={app.name}
+          value={item.id}
+          key={item.id}
+          primaryText={item.name + ' : ' + item.ServStatus}
         />
       ))
     }
