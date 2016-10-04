@@ -2,12 +2,11 @@
  * Created by takaruz on 10/3/16.
  */
 import React, {PropTypes} from 'react';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardHeader, CardText} from 'material-ui/Card';
 import {Table, TableBody, TableRow, TableRowColumn} from 'material-ui/Table';
-import {FlatButton, Toggle} from 'material-ui';
 
-const ApplicationDetail = ({
-  detail, expanded
+const CardAppDetail = ({
+  client, detail, expanded
 }) => (
   <Card style={{marginTop: 16, marginBottom: 16}}>
     <CardHeader
@@ -17,21 +16,23 @@ const ApplicationDetail = ({
     />
     <CardText
       expandable={true}>
-      <Table selectable={false}>
+      <Table
+        selectable={false}
+      >
         <TableBody
           displayRowCheckbox={false}
           style={{paddingTop: 4}}
         >
           <TableRow>
             <TableRowColumn>Client</TableRowColumn>
-            <TableRowColumn></TableRowColumn>
+            <TableRowColumn>{client ? client : "-"}</TableRowColumn>
           </TableRow>
           <TableRow>
             <TableRowColumn>Application</TableRowColumn>
             <TableRowColumn>{detail.name ? detail.name : "-"}</TableRowColumn>
           </TableRow>
           <TableRow>
-            <TableRowColumn>Version</TableRowColumn>
+            <TableRowColumn>Current Version</TableRowColumn>
             <TableRowColumn>{detail.version ? detail.version : "-"}</TableRowColumn>
           </TableRow>
           <TableRow>
@@ -54,12 +55,12 @@ const ApplicationDetail = ({
       </Table>
     </CardText>
   </Card>
-);
+)
 
 // Assign props to components
-ApplicationDetail.propTypes = {
+CardAppDetail.propTypes = {
   detail: PropTypes.object.isRequired,
   expanded: PropTypes.bool.isRequired
 }
 
-export default ApplicationDetail;
+export default CardAppDetail
