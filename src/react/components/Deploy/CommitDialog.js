@@ -29,6 +29,7 @@ const DialogModal = ({
   target,
   disabled,
   open,
+  deploy_opt,
   handleClose,
   handleCheck
 }) => (
@@ -59,6 +60,10 @@ const DialogModal = ({
           <TableRowColumn style={table.subjectBold}>To Version</TableRowColumn>
           <TableRowColumn style={table.valueBold}>{target ? target : "-"}</TableRowColumn>
         </TableRow>
+        <TableRow style={table.tdHeight40}>
+          <TableRowColumn style={table.subjectBold}>Deploy option</TableRowColumn>
+          <TableRowColumn style={table.valueBold}>{deploy_opt}</TableRowColumn>
+        </TableRow>
       </TableBody>
     </Table>
 
@@ -79,6 +84,7 @@ DialogModal.propTypes = {
   target: PropTypes.string.isRequired,
   disabled: PropTypes.bool.isRequired,
   open: PropTypes.bool.isRequired,
+  deploy_opt: PropTypes.number.isRequired,
   handleClose: PropTypes.func.isRequired,
   handleCheck: PropTypes.func.isRequired
 }

@@ -3,11 +3,12 @@
  */
 import React, {PropTypes} from 'react';
 import {MenuItem, SelectField} from 'material-ui';
+import {SELECT_VERSION} from '../../constants/actionTypes'
 
 import '../../theme/styles.scss'
 
 function makeItemText(version, current) {
-  let number  = version.versionName
+  let number  = version.name
   let date    = ` : ${version.releaseDate}`
   let hash    = ` : (${version.hashCode})`
   let status  = version.status == "" ? "" : ` : ${version.status}`
@@ -28,12 +29,12 @@ const DropDownVersionList = ({
     fullWidth={true}
     value={value}
     errorText={errorText}
-    onChange={(event, key, payload) => handleChange(payload, 'version')}>
+    onChange={(event, key, payload) => handleChange(payload, SELECT_VERSION)}>
     {
       versions.map((version) => (
         <MenuItem
-          value={version.versionCode}
-          key={version.versionCode}
+          value={version.id}
+          key={version.id}
           primaryText={makeItemText(version, current)}
         />
       ))

@@ -6,7 +6,7 @@ import {Card, CardHeader, CardText} from 'material-ui/Card';
 import DetailTable from './DetailTable'
 
 const CardAppDetail = ({
-  client, detail, expanded
+  client, app, expanded
 }) => (
   <Card style={{marginTop: 16, marginBottom: 16}}>
     <CardHeader
@@ -17,7 +17,7 @@ const CardAppDetail = ({
     <CardText expandable={true}>
       <DetailTable
         client={client}
-        detail={detail}
+        app={app}
       />
     </CardText>
   </Card>
@@ -26,7 +26,7 @@ const CardAppDetail = ({
 // Assign props to components
 CardAppDetail.propTypes = {
   client: PropTypes.object.isRequired,
-  detail: PropTypes.object.isRequired,
+  app: PropTypes.object.isRequired,
   expanded: PropTypes.bool.isRequired
 }
 

@@ -5,10 +5,20 @@ import DropDownAppList from './AppList'
 import DropDownVersionList from './VersionList'
 import CardAppDetail from './AppDetail'
 import CommitDialog from './CommitDialog'
-import fetch from 'isomorphic-fetch'
-import {VERSION_ENDPOINT} from '../../constants/endpoints'
 
-import {loadClients, loadApplications, selectClient} from '../../actions/deploy'
+import {loadClients, loadApplications, loadVersions, selectItem, clearSelectedItem} from '../../actions/deploy'
+import {
+  SELECT_APP,
+  SELECT_CLIENT,
+  SELECT_VERSION,
+  INIT_APP,
+  INIT_VERSION
+} from '../../constants/actionTypes'
+import {
+  DEPLOY_OPT_1,
+  DEPLOY_OPT_2,
+  DEPLOY_OPT_3
+} from '../../constants/strings'
 import {connect} from 'react-redux'
 
 import '../../theme/styles.scss'
@@ -16,12 +26,17 @@ import '../../theme/styles.scss'
 class DeployComponent extends Component {
 
   static propTypes = {
-    client: PropTypes.object.isRequired,
+    app: PropTypes.object.isRequired,
     apps: PropTypes.array.isRequired,
+    client: PropTypes.object.isRequired,
     clients: PropTypes.array.isRequired,
-    onLoadApps: PropTypes.func.isRequired,
+    version: PropTypes.object.isRequired,
+    versions: PropTypes.array.isRequired,
+    boundLoadApps: PropTypes.func.isRequired,
     boundLoadClients: PropTypes.func.isRequired,
-    onSelectClient: PropTypes.func.isRequired
+    boundLoadVersions: PropTypes.func.isRequired,
+    boundSelectItem: PropTypes.func.isRequired,
+    boundClearSelectedItem: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -32,26 +47,10 @@ class DeployComponent extends Component {
     openModal: false, // state summary modal
     disabled: true,  // state summary submit
     expanded: false,  // state expand card summary
-
-    appId: -1,
-
-    versions: [],
-    versionId: -1,
-    versionName: "",
-    versionTarget: "",
-
     errorApp: "",
     errorClient: "",
     errorVersion: "",
-
-    detail: {}
-  }
-
-  // TODO: move to manager or reducer.
-  getVersions = (id) => {
-    fetch(VERSION_ENDPOINT + '/' + id)
-      .then((response) => response.json())
-      .then((versions) => this.setState({versions: versions.version}))
+    deploy_opt: 3,
   }
 
   clearErrorTexts = () => {
@@ -62,47 +61,11 @@ class DeployComponent extends Component {
     })
   }
 
-  /********* Start Handle Change ***********/
-
-  handleChange = (value, type) => {
-    const {client, clients, onLoadApps, onSelectClient} = this.props
-
-    if (type == 'client') {
-      // TODO: remove internal state
-      this.setState({
-        appId: -1,  // deselect application.
-        versionId: -1, // deselect version.
-        detail: {} // init detail data.
-      })
-      onSelectClient(value, clients)
-      onLoadApps(value)
-    } else if (type == 'application') {
-      if (this.state.appId != value) {
-        this.setState({
-          appId: value,
-          detail: this.state.apps.filter(x => x.id === value)[0],  // set detail in card.
-          versionName: this.state.apps.filter(x => x.id === value)[0].version, // set current version name
-          versionId: -1, // deselect version.
-        })
-        this.getVersions(value)
-      }
-    } else if (type == 'version') {
-      this.setState({
-        versionId: value,
-        versionTarget: this.state.versions.filter(x => x.versionCode === value)[0].versionName
-      })
-    }
-  }
-
-  /********* Start Handle Modal ***********/
-
-  handleOpenModal = () => {
-    const {appId, versionId} = this.state
-    const {client} = this.props
+  validateForm = () => {
+    const {app, client, version} = this.props
     let hasError = false;
-
     this.clearErrorTexts()
-    if (appId == -1) {
+    if (app.id == -1) {
       this.setState({errorApp: "Application is not selected."})
       hasError = true
     }
@@ -110,11 +73,36 @@ class DeployComponent extends Component {
       this.setState({errorClient: "Client is not selected."})
       hasError = true
     }
-    if (versionId == -1) {
+    if (version.id == -1) {
       this.setState({errorVersion: "Version is not selected."})
       hasError = true
     }
-    if (!hasError) this.setState({openModal: true})
+    return hasError
+  }
+
+  /********* Start Handle Change ***********/
+
+  handleChange = (value, type) => {
+    const {clients, apps, versions, boundLoadApps, boundLoadVersions, boundSelectItem, boundClearSelectedItem} = this.props
+    if (type == SELECT_CLIENT) {
+      boundSelectItem(value, clients, type)
+      boundLoadApps(value)
+      boundClearSelectedItem(INIT_APP)
+      boundClearSelectedItem(INIT_VERSION)
+    } else if (type == SELECT_APP) {
+      boundSelectItem(value, apps, type)
+      boundLoadVersions(value)
+      boundClearSelectedItem(INIT_VERSION)
+    } else if (type == SELECT_VERSION) {
+      boundSelectItem(value, versions, type)
+    }
+  }
+
+  /********* Start Handle Modal ***********/
+
+  handleOpenModal = () => {
+    if (!this.validateForm())
+      this.setState({openModal: true})
   }
 
   handleCloseModal = () => {
@@ -131,19 +119,13 @@ class DeployComponent extends Component {
     const {
       openModal,
       disabled,
-      detail,
       expanded,
-      appId,
-      clientName,
-      versions,
-      versionId,
-      versionName,
-      versionTarget,
       errorApp,
       errorClient,
-      errorVersion
+      errorVersion,
+      deploy_opt
     } = this.state
-    const {apps, client, clients} = this.props
+    const {app, apps, client, clients, version, versions} = this.props
 
     return (
       <div className="contentContainer">
@@ -157,37 +139,37 @@ class DeployComponent extends Component {
         />
 
         <DropDownAppList
-          value={appId}
+          value={app.id}
           apps={apps}
           errorText={errorApp}
           handleChange={this.handleChange}
         />
 
         <DropDownVersionList
-          current={versionName}
-          value={versionId}
+          current={app.version}
+          value={version.id}
           versions={versions}
           errorText={errorVersion}
           handleChange={this.handleChange}
         />
         <CardAppDetail
           client={client}
-          detail={detail}
+          app={app}
           expanded={expanded}
         />
 
-        <RadioButtonGroup name="deployOption" defaultSelected="3">
+        <RadioButtonGroup name="deployOption" defaultSelected={3}>
           <RadioButton
-            value="1"
-            label="Deploy without configure folder."
+            value={1}
+            label={DEPLOY_OPT_1}
           />
           <RadioButton
-            value="2"
-            label="Deploy with replace all configure folder."
+            value={2}
+            label={DEPLOY_OPT_2}
           />
           <RadioButton
-            value="3"
-            label="Deploy with copy configure folder to default configure."
+            value={3}
+            label={DEPLOY_OPT_3}
           />
         </RadioButtonGroup>
 
@@ -201,8 +183,9 @@ class DeployComponent extends Component {
 
         <CommitDialog
           client={client.name}
-          detail={detail}
-          target={versionTarget}
+          detail={app}
+          target={version.name}
+          deploy_opt={deploy_opt}
           disabled={disabled}
           open={openModal}
           handleClose={this.handleCloseModal}
@@ -215,21 +198,29 @@ class DeployComponent extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
+  app: state.app,
+  apps: state.apps,
   client: state.client,
   clients: state.clients,
-  apps: state.apps
-
+  version: state.version,
+  versions: state.versions
 })
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   boundLoadClients() {
     dispatch(loadClients())
   },
-  onLoadApps(id) {
+  boundLoadApps(id) {
     dispatch(loadApplications(id))
   },
-  onSelectClient(id, object) {
-    dispatch(selectClient(id, object))
+  boundLoadVersions(id) {
+    dispatch(loadVersions(id))
+  },
+  boundSelectItem(id, arr, type) {
+    dispatch(selectItem(id, arr, type))
+  },
+  boundClearSelectedItem(type) {
+    dispatch(clearSelectedItem(type))
   }
 })
 

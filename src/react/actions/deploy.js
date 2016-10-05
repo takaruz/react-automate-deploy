@@ -2,13 +2,24 @@
  * Created by takaruz on 10/5/16.
  */
 import {CALL_API} from 'redux-api-middleware'
-import {LIST_ENDPOINT, CLIENT_ENDPOINT} from '../constants/endpoints'
+import {LIST_ENDPOINT, CLIENT_ENDPOINT, VERSION_ENDPOINT} from '../constants/endpoints'
+import {
+  LOAD_APPS_FAILURE,
+  LOAD_APPS_REQUEST,
+  LOAD_APPS_SUCCESS,
+  LOAD_CLIENTS_FAILURE,
+  LOAD_CLIENTS_REQUEST,
+  LOAD_CLIENTS_SUCCESS,
+  LOAD_VERSION_FAILURE,
+  LOAD_VERSION_REQUEST,
+  LOAD_VERSION_SUCCESS
+} from '../constants/actionTypes'
 
 export const loadClients = () => ({
   [CALL_API]: {
     endpoint: LIST_ENDPOINT,
     method: 'GET',
-    types: ['LOAD_CLIENTS_REQUEST', 'LOAD_CLIENTS_SUCCESS', 'LOAD_CLIENTS_FAILURE']
+    types: [LOAD_CLIENTS_REQUEST, LOAD_CLIENTS_SUCCESS, LOAD_CLIENTS_FAILURE]
   }
 })
 
@@ -16,22 +27,23 @@ export const loadApplications = (id) => ({
   [CALL_API]: {
     endpoint: `${CLIENT_ENDPOINT}/${id}`,
     method: 'GET',
-    types: ['LOAD_APPS_REQUEST', 'LOAD_APPS_SUCCESS', 'LOAD_APPS_FAILURE']
+    types: [LOAD_APPS_REQUEST, LOAD_APPS_SUCCESS, LOAD_APPS_FAILURE]
   }
 })
 
-export const selectClient = (id, clients) => {
-  return {
-    type: 'SELECT_CLIENT_SUCCESS',
-    client: clients.find((client) => client.id === id)
+export const loadVersions = (id) => ({
+  [CALL_API]: {
+    endpoint: `${VERSION_ENDPOINT}/${id}`,
+    method: 'GET',
+    types: [LOAD_VERSION_REQUEST, LOAD_VERSION_SUCCESS, LOAD_VERSION_FAILURE]
   }
-}
+})
 
+export const selectItem = (id, array, type) => ({
+  type: type,
+  data: array.find((item) => item.id === id)
+})
 
-// TODO
-export const selectItem = (id, array) => {
-  return {
-    type: 'SELECT_CLIENT_SUCCESS',
-    data: array.find((item) => item.id === id)
-  }
-}
+export const clearSelectedItem = (type) => ({
+  type: type
+})

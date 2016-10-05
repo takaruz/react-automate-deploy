@@ -7,7 +7,7 @@ import {table} from '../../theme/styles'
 
 const TableDetail = ({
   client,
-  detail
+  app
 }) => (
   <Table selectable={false}>
     <TableBody displayRowCheckbox={false} style={{paddingTop: 4}}>
@@ -17,27 +17,27 @@ const TableDetail = ({
       </TableRow>
       <TableRow style={table.tdHeight40}>
         <TableRowColumn style={table.subject}>Application</TableRowColumn>
-        <TableRowColumn style={table.value}>{detail.name ? detail.name : "-"}</TableRowColumn>
+        <TableRowColumn style={table.value}>{app.name ? app.name : "-"}</TableRowColumn>
       </TableRow>
       <TableRow style={table.tdHeight40}>
         <TableRowColumn style={table.subject}>Current Version</TableRowColumn>
-        <TableRowColumn style={table.value}>{detail.version ? detail.version : "-"}</TableRowColumn>
+        <TableRowColumn style={table.value}>{app.version ? app.version : "-"}</TableRowColumn>
       </TableRow>
       <TableRow style={table.tdHeight40}>
         <TableRowColumn style={table.subject}>Last Updated</TableRowColumn>
-        <TableRowColumn style={table.value}>{detail.lastUpdate ? detail.lastUpdate : "-"}</TableRowColumn>
+        <TableRowColumn style={table.value}>{app.lastUpdate ? app.lastUpdate : "-"}</TableRowColumn>
       </TableRow>
       <TableRow style={table.tdHeight40}>
         <TableRowColumn style={table.subject}>IP Address</TableRowColumn>
-        <TableRowColumn style={table.value}>{detail.ip ? detail.ip : "-"}</TableRowColumn>
+        <TableRowColumn style={table.value}>{app.ip ? app.ip : "-"}</TableRowColumn>
       </TableRow>
       <TableRow style={table.tdHeight40}>
         <TableRowColumn style={table.subject}>Server Status</TableRowColumn>
-        <TableRowColumn style={table.value}>{detail.ServStatus ? detail.ServStatus : "-"}</TableRowColumn>
+        <TableRowColumn style={table.value}>{app.ServStatus ? app.ServStatus : "-"}</TableRowColumn>
       </TableRow>
       <TableRow style={table.tdHeight40}>
         <TableRowColumn style={table.subject}>App Status</TableRowColumn>
-        <TableRowColumn style={table.value}>{detail.AppStatus ? detail.AppStatus : "-"}</TableRowColumn>
+        <TableRowColumn style={table.value}>{app.AppStatus ? app.AppStatus : "-"}</TableRowColumn>
       </TableRow>
     </TableBody>
   </Table>
@@ -46,7 +46,7 @@ const TableDetail = ({
 // Assign props to components
 TableDetail.propTypes = {
   client: PropTypes.object.isRequired,
-  detail: PropTypes.object.isRequired
+  app: PropTypes.object.isRequired
 }
 
 export default TableDetail

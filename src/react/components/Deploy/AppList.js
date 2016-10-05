@@ -3,6 +3,7 @@
  */
 import React, {PropTypes} from 'react';
 import {MenuItem, SelectField} from 'material-ui';
+import {SELECT_APP} from '../../constants/actionTypes'
 
 import '../../theme/styles.scss'
 
@@ -18,7 +19,7 @@ const DropDownSiteList = ({
     fullWidth={true}
     value={value}
     errorText={errorText}
-    onChange={(event, key, payload) => handleChange(payload, 'application')}>
+    onChange={(event, key, payload) => handleChange(payload, SELECT_APP)}>
     {
       apps.map((app) => (
         <MenuItem
