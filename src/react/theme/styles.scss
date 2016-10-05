@@ -8,6 +8,13 @@
   width: 50%;
 }
 
+@media screen and (max-width: 756px) {
+  .dialog {
+    width: 95% !important;
+    max-width: 700px !important;
+  }
+}
+
 :global {
 
   .contentContainer {

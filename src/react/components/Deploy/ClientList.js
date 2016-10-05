@@ -9,6 +9,7 @@ import '../../theme/styles.scss'
 const DropDownClientList = ({
   value,
   clients,
+  errorText,
   handleChange
 }) => (
   <SelectField
@@ -16,6 +17,7 @@ const DropDownClientList = ({
     floatingLabelText="Select Client"
     fullWidth={true}
     value={value}
+    errorText={errorText}
     onChange={(event, key, payload) => handleChange(payload, 'client')}>
     {
       clients.map((client) => (
@@ -33,6 +35,7 @@ const DropDownClientList = ({
 DropDownClientList.propTypes = {
   value: PropTypes.number.isRequired,
   clients: PropTypes.array.isRequired,
+  errorText: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired
 }
 

@@ -28,7 +28,7 @@ const Menu = ({
     />
     <MenuItem
       onTouchTap={() => handleLink("deploy")}
-      primaryText="Deploy/Rollback"
+      primaryText="Update/Rollback"
       rightIcon={<SystemUpdateIcon />}
     />
     <MenuItem

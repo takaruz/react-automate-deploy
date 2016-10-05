@@ -3,7 +3,7 @@
  */
 import React, {PropTypes} from 'react';
 import {Card, CardHeader, CardText} from 'material-ui/Card';
-import {Table, TableBody, TableRow, TableRowColumn} from 'material-ui/Table';
+import DetailTable from './DetailTable'
 
 const CardAppDetail = ({
   client, detail, expanded
@@ -14,51 +14,18 @@ const CardAppDetail = ({
       subtitle="expand to see application detail."
       showExpandableButton={true}
     />
-    <CardText
-      expandable={true}>
-      <Table
-        selectable={false}
-      >
-        <TableBody
-          displayRowCheckbox={false}
-          style={{paddingTop: 4}}
-        >
-          <TableRow>
-            <TableRowColumn>Client</TableRowColumn>
-            <TableRowColumn>{client ? client : "-"}</TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn>Application</TableRowColumn>
-            <TableRowColumn>{detail.name ? detail.name : "-"}</TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn>Current Version</TableRowColumn>
-            <TableRowColumn>{detail.version ? detail.version : "-"}</TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn>Last Updated</TableRowColumn>
-            <TableRowColumn>{detail.lastUpdate ? detail.lastUpdate : "-"}</TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn>IP Address</TableRowColumn>
-            <TableRowColumn>{detail.ip ? detail.ip : "-"}</TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn>Server Status</TableRowColumn>
-            <TableRowColumn>{detail.ServStatus ? detail.ServStatus : "-"}</TableRowColumn>
-          </TableRow>
-          <TableRow>
-            <TableRowColumn>App Status</TableRowColumn>
-            <TableRowColumn>{detail.AppStatus ? detail.AppStatus : "-"}</TableRowColumn>
-          </TableRow>
-        </TableBody>
-      </Table>
+    <CardText expandable={true}>
+      <DetailTable
+        client={client}
+        detail={detail}
+      />
     </CardText>
   </Card>
 )
 
 // Assign props to components
 CardAppDetail.propTypes = {
+  client: PropTypes.object.isRequired,
   detail: PropTypes.object.isRequired,
   expanded: PropTypes.bool.isRequired
 }

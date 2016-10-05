@@ -19,6 +19,7 @@ const DropDownVersionList = ({
   current,
   value,
   versions,
+  errorText,
   handleChange
 }) => (
   <SelectField
@@ -26,6 +27,7 @@ const DropDownVersionList = ({
     floatingLabelText="Select Version"
     fullWidth={true}
     value={value}
+    errorText={errorText}
     onChange={(event, key, payload) => handleChange(payload, 'version')}>
     {
       versions.map((version) => (
@@ -43,6 +45,7 @@ const DropDownVersionList = ({
 DropDownVersionList.propTypes = {
   value: PropTypes.number.isRequired,
   versions: PropTypes.array.isRequired,
+  errorText: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired
 }
 

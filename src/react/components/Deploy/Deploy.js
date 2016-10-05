@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, PropTypes} from 'react';
 import {RadioButton, RadioButtonGroup, RaisedButton} from 'material-ui';
 import DropDownClientList from './ClientList'
 import DropDownAppList from './AppList'
@@ -6,77 +6,90 @@ import DropDownVersionList from './VersionList'
 import CardAppDetail from './AppDetail'
 import CommitDialog from './CommitDialog'
 import fetch from 'isomorphic-fetch'
-import {CLIENT_ENDPOINT, LIST_ENDPOINT, VERSION_ENDPOINT} from '../../constants/endpoints'
+import {VERSION_ENDPOINT} from '../../constants/endpoints'
+
+import {loadClients, loadApplications, selectClient} from '../../actions/deploy'
+import {connect} from 'react-redux'
 
 import '../../theme/styles.scss'
 
-export default class DeployComponent extends Component {
+class DeployComponent extends Component {
+
+  static propTypes = {
+    client: PropTypes.object.isRequired,
+    apps: PropTypes.array.isRequired,
+    clients: PropTypes.array.isRequired,
+    onLoadApps: PropTypes.func.isRequired,
+    boundLoadClients: PropTypes.func.isRequired,
+    onSelectClient: PropTypes.func.isRequired
+  }
+
+  componentDidMount() {
+    this.props.boundLoadClients()
+  }
 
   state = {
     openModal: false, // state summary modal
     disabled: true,  // state summary submit
     expanded: false,  // state expand card summary
 
-    apps: [],
     appId: -1,
-
-    clients: [],
-    clientId: -1,
-    clientName: "",
 
     versions: [],
     versionId: -1,
-    versionCurrent: "",
+    versionName: "",
+    versionTarget: "",
+
+    errorApp: "",
+    errorClient: "",
+    errorVersion: "",
 
     detail: {}
   }
 
   // TODO: move to manager or reducer.
-  getApplication = (id) => {
-    fetch(CLIENT_ENDPOINT + '/' + id)
-      .then((response) => response.json())
-      .then((apps) => {
-        this.setState({apps: apps.application})
-      })
-    this.setState({
-      clientName: this.state.clients.filter(x => x.id === id)[0].name,  // set client name.
-      detail: {}  // init detail data.
-    })
-  }
-
-  // TODO: move to manager or reducer.
   getVersions = (id) => {
-    this.setState({
-      detail: this.state.apps.filter(x => x.id === id)[0],  // set detail in card.
-      versionCurrent: this.state.apps.filter(x => x.id === id)[0].version // set current version name
-    })
     fetch(VERSION_ENDPOINT + '/' + id)
       .then((response) => response.json())
       .then((versions) => this.setState({versions: versions.version}))
   }
 
-  // TODO: move to manager or reducer.
-  componentDidMount() {
-    fetch(LIST_ENDPOINT)
-      .then((response) => response.json())
-      .then((clients) => this.setState({clients}))
+  clearErrorTexts = () => {
+    this.setState({
+      errorApp: "",
+      errorClient: "",
+      errorVersion: ""
+    })
   }
 
+  /********* Start Handle Change ***********/
+
   handleChange = (value, type) => {
+    const {client, clients, onLoadApps, onSelectClient} = this.props
+
     if (type == 'client') {
+      // TODO: remove internal state
       this.setState({
-        clientId: value,
-        appId: -1  // deselect application.
+        appId: -1,  // deselect application.
+        versionId: -1, // deselect version.
+        detail: {} // init detail data.
       })
-      this.getApplication(value)
+      onSelectClient(value, clients)
+      onLoadApps(value)
     } else if (type == 'application') {
-      this.setState({
-        appId: value
-      })
-      this.getVersions(value)
+      if (this.state.appId != value) {
+        this.setState({
+          appId: value,
+          detail: this.state.apps.filter(x => x.id === value)[0],  // set detail in card.
+          versionName: this.state.apps.filter(x => x.id === value)[0].version, // set current version name
+          versionId: -1, // deselect version.
+        })
+        this.getVersions(value)
+      }
     } else if (type == 'version') {
       this.setState({
-        versionId: value
+        versionId: value,
+        versionTarget: this.state.versions.filter(x => x.versionCode === value)[0].versionName
       })
     }
   }
@@ -84,7 +97,24 @@ export default class DeployComponent extends Component {
   /********* Start Handle Modal ***********/
 
   handleOpenModal = () => {
-    this.setState({openModal: true})
+    const {appId, versionId} = this.state
+    const {client} = this.props
+    let hasError = false;
+
+    this.clearErrorTexts()
+    if (appId == -1) {
+      this.setState({errorApp: "Application is not selected."})
+      hasError = true
+    }
+    if (client.id == -1) {
+      this.setState({errorClient: "Client is not selected."})
+      hasError = true
+    }
+    if (versionId == -1) {
+      this.setState({errorVersion: "Version is not selected."})
+      hasError = true
+    }
+    if (!hasError) this.setState({openModal: true})
   }
 
   handleCloseModal = () => {
@@ -103,40 +133,45 @@ export default class DeployComponent extends Component {
       disabled,
       detail,
       expanded,
-      apps,
       appId,
-      clients,
-      clientId,
       clientName,
       versions,
       versionId,
-      versionCurrent
+      versionName,
+      versionTarget,
+      errorApp,
+      errorClient,
+      errorVersion
     } = this.state
+    const {apps, client, clients} = this.props
 
     return (
       <div className="contentContainer">
-        <h1 className="textCenter">Deploy / Rollback</h1>
+        {/*<h1 className="textCenter">Deploy / Rollback</h1>*/}
 
         <DropDownClientList
-          value={clientId}
+          value={client.id}
           clients={clients}
+          errorText={errorClient}
           handleChange={this.handleChange}
         />
+
         <DropDownAppList
           value={appId}
           apps={apps}
+          errorText={errorApp}
           handleChange={this.handleChange}
         />
 
         <DropDownVersionList
-          current={versionCurrent}
+          current={versionName}
           value={versionId}
           versions={versions}
+          errorText={errorVersion}
           handleChange={this.handleChange}
         />
-
         <CardAppDetail
-          client={clientName}
+          client={client}
           detail={detail}
           expanded={expanded}
         />
@@ -156,14 +191,18 @@ export default class DeployComponent extends Component {
           />
         </RadioButtonGroup>
 
+        {/* Button handle commit command to job scheduler */}
         <RaisedButton
           label="Commit job"
           secondary={true}
-          style={{marginTop: 16}}
+          style={{marginTop: 20}}
           onTouchTap={this.handleOpenModal}
         />
 
         <CommitDialog
+          client={client.name}
+          detail={detail}
+          target={versionTarget}
           disabled={disabled}
           open={openModal}
           handleClose={this.handleCloseModal}
@@ -174,3 +213,27 @@ export default class DeployComponent extends Component {
     )
   }
 }
+
+const mapStateToProps = (state, ownProps) => ({
+  client: state.client,
+  clients: state.clients,
+  apps: state.apps
+
+})
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  boundLoadClients() {
+    dispatch(loadClients())
+  },
+  onLoadApps(id) {
+    dispatch(loadApplications(id))
+  },
+  onSelectClient(id, object) {
+    dispatch(selectClient(id, object))
+  }
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DeployComponent)
