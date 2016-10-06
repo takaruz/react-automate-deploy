@@ -31,4 +31,8 @@ export const table = {
     width: "60%",
     height: 40
   },
+  smallPadding: {
+    paddingLeft: 6,
+    paddingRight: 6
+  }
 }

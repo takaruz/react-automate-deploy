@@ -8,3 +8,5 @@ export const LIST_ENDPOINT = `${API_ROOT}/list`
 export const CLIENT_ENDPOINT = `${API_ROOT}/client`
 
 export const VERSION_ENDPOINT = `${API_ROOT}/version`
+
+export const JOB_ENDPOINT = `${API_ROOT}/job`

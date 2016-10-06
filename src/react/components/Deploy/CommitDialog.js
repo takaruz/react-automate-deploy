@@ -9,17 +9,17 @@ import {table} from '../../theme/styles'
 import styles from '../../theme/styles.scss'
 
 // Actions list in dialog
-const actions = (disabled, handle) => [
+const actions = (disabled, handleClose, handleSubmit) => [
   <FlatButton
     label="Cancel"
     primary={true}
-    onTouchTap={handle}
+    onTouchTap={handleClose}
   />,
   <FlatButton
     label="Submit"
     primary={true}
     disabled={disabled}
-    onTouchTap={handle}
+    onTouchTap={handleSubmit}
   />
 ]
 
@@ -31,12 +31,13 @@ const DialogModal = ({
   open,
   deploy_opt,
   handleClose,
-  handleCheck
+  handleCheck,
+  handleSubmit
 }) => (
   <Dialog
     title="Summary"
     titleStyle={{border: 0, paddingBottom: 12}}
-    actions={actions(disabled, handleClose)}
+    actions={actions(disabled, handleClose, handleSubmit)}
     modal={true}
     open={open}
     contentClassName={styles['dialog']}
@@ -86,7 +87,8 @@ DialogModal.propTypes = {
   open: PropTypes.bool.isRequired,
   deploy_opt: PropTypes.number.isRequired,
   handleClose: PropTypes.func.isRequired,
-  handleCheck: PropTypes.func.isRequired
+  handleCheck: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
 }
 
 export default DialogModal

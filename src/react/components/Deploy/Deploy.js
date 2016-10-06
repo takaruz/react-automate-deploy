@@ -5,8 +5,16 @@ import DropDownAppList from './AppList'
 import DropDownVersionList from './VersionList'
 import CardAppDetail from './AppDetail'
 import CommitDialog from './CommitDialog'
-
-import {loadClients, loadApplications, loadVersions, selectItem, clearSelectedItem} from '../../actions/deploy'
+import {connect} from 'react-redux'
+import {reduxForm} from 'redux-form'
+import {
+  loadClients,
+  loadApplications,
+  loadVersions,
+  selectItem,
+  clearSelectedItem,
+  submitJob
+} from '../../actions/deploy'
 import {
   SELECT_APP,
   SELECT_CLIENT,
@@ -19,7 +27,7 @@ import {
   DEPLOY_OPT_2,
   DEPLOY_OPT_3
 } from '../../constants/strings'
-import {connect} from 'react-redux'
+
 
 import '../../theme/styles.scss'
 
@@ -36,7 +44,8 @@ class DeployComponent extends Component {
     boundLoadClients: PropTypes.func.isRequired,
     boundLoadVersions: PropTypes.func.isRequired,
     boundSelectItem: PropTypes.func.isRequired,
-    boundClearSelectedItem: PropTypes.func.isRequired
+    boundClearSelectedItem: PropTypes.func.isRequired,
+    boundSubmitJob: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -113,6 +122,16 @@ class DeployComponent extends Component {
     this.setState({disabled: !checked})
   }
 
+  handleSubmit = () => {
+    const data = {
+      app: this.props.app,
+      client: this.props.client,
+      version: this.props.version
+    }
+    this.props.boundSubmitJob(data)
+    this.setState({openModal: false})
+  }
+
   /********** End Handle Modal ***********/
 
   render() {
@@ -130,74 +149,75 @@ class DeployComponent extends Component {
     return (
       <div className="contentContainer">
         {/*<h1 className="textCenter">Deploy / Rollback</h1>*/}
-
-        <DropDownClientList
-          value={client.id}
-          clients={clients}
-          errorText={errorClient}
-          handleChange={this.handleChange}
-        />
-
-        <DropDownAppList
-          value={app.id}
-          apps={apps}
-          errorText={errorApp}
-          handleChange={this.handleChange}
-        />
-
-        <DropDownVersionList
-          current={app.version}
-          value={version.id}
-          versions={versions}
-          errorText={errorVersion}
-          handleChange={this.handleChange}
-        />
-        <CardAppDetail
-          client={client}
-          app={app}
-          expanded={expanded}
-        />
-
-        <RadioButtonGroup name="deployOption" defaultSelected={3}>
-          <RadioButton
-            value={1}
-            label={DEPLOY_OPT_1}
+        <form>
+          <DropDownClientList
+            value={client.id}
+            clients={clients}
+            errorText={errorClient}
+            handleChange={this.handleChange}
           />
-          <RadioButton
-            value={2}
-            label={DEPLOY_OPT_2}
+
+          <DropDownAppList
+            value={app.id}
+            apps={apps}
+            errorText={errorApp}
+            handleChange={this.handleChange}
           />
-          <RadioButton
-            value={3}
-            label={DEPLOY_OPT_3}
+
+          <DropDownVersionList
+            current={app.version}
+            value={version.id}
+            versions={versions}
+            errorText={errorVersion}
+            handleChange={this.handleChange}
           />
-        </RadioButtonGroup>
+          <CardAppDetail
+            client={client}
+            app={app}
+            expanded={expanded}
+          />
 
-        {/* Button handle commit command to job scheduler */}
-        <RaisedButton
-          label="Commit job"
-          secondary={true}
-          style={{marginTop: 20}}
-          onTouchTap={this.handleOpenModal}
-        />
+          <RadioButtonGroup name="deployOption" defaultSelected={3}>
+            <RadioButton
+              value={1}
+              label={DEPLOY_OPT_1}
+            />
+            <RadioButton
+              value={2}
+              label={DEPLOY_OPT_2}
+            />
+            <RadioButton
+              value={3}
+              label={DEPLOY_OPT_3}
+            />
+          </RadioButtonGroup>
 
-        <CommitDialog
-          client={client.name}
-          detail={app}
-          target={version.name}
-          deploy_opt={deploy_opt}
-          disabled={disabled}
-          open={openModal}
-          handleClose={this.handleCloseModal}
-          handleCheck={this.handleCheckModal}
-        />
+          {/* Button handle commit command to job scheduler */}
+          <RaisedButton
+            label="Commit job"
+            secondary={true}
+            style={{marginTop: 20}}
+            onTouchTap={this.handleOpenModal}
+          />
 
+          <CommitDialog
+            client={client.name}
+            detail={app}
+            target={version.name}
+            deploy_opt={deploy_opt}
+            disabled={disabled}
+            open={openModal}
+            handleSubmit={this.handleSubmit}
+            handleClose={this.handleCloseModal}
+            handleCheck={this.handleCheckModal}
+          />
+        </form>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state) => ({
   app: state.app,
   apps: state.apps,
   client: state.client,
@@ -221,10 +241,19 @@ const mapDispatchToProps = (dispatch) => ({
   },
   boundClearSelectedItem(type) {
     dispatch(clearSelectedItem(type))
+  },
+  boundSubmitJob(value) {
+    dispatch(submitJob(value))
   }
 })
 
-export default connect(
+DeployComponent = reduxForm({
+  form: 'deploy'
+})(DeployComponent)
+
+DeployComponent = connect(
   mapStateToProps,
   mapDispatchToProps
 )(DeployComponent)
+
+export default DeployComponent

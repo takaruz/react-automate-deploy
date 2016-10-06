@@ -2,7 +2,7 @@
  * Created by takaruz on 10/5/16.
  */
 import {CALL_API} from 'redux-api-middleware'
-import {LIST_ENDPOINT, CLIENT_ENDPOINT, VERSION_ENDPOINT} from '../constants/endpoints'
+import {LIST_ENDPOINT, CLIENT_ENDPOINT, VERSION_ENDPOINT, JOB_ENDPOINT} from '../constants/endpoints'
 import {
   LOAD_APPS_FAILURE,
   LOAD_APPS_REQUEST,
@@ -12,7 +12,10 @@ import {
   LOAD_CLIENTS_SUCCESS,
   LOAD_VERSION_FAILURE,
   LOAD_VERSION_REQUEST,
-  LOAD_VERSION_SUCCESS
+  LOAD_VERSION_SUCCESS,
+  SUBMIT_JOB_FAILURE,
+  SUBMIT_JOB_REQUEST,
+  SUBMIT_JOB_SUCCESS
 } from '../constants/actionTypes'
 
 export const loadClients = () => ({
@@ -36,6 +39,19 @@ export const loadVersions = (id) => ({
     endpoint: `${VERSION_ENDPOINT}/${id}`,
     method: 'GET',
     types: [LOAD_VERSION_REQUEST, LOAD_VERSION_SUCCESS, LOAD_VERSION_FAILURE]
+  }
+})
+
+export const submitJob = (values) => ({
+  [CALL_API]: {
+    endpoint: JOB_ENDPOINT,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    body: JSON.stringify(values),
+    types: [SUBMIT_JOB_REQUEST, SUBMIT_JOB_SUCCESS, SUBMIT_JOB_FAILURE]
   }
 })
 
